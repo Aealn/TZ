@@ -1,0 +1,84 @@
+ПРОЦЕДУРА ДЛЯ ДОБАВЛЕНИЯ ПРОДАЖИ
+
+DELIMITER //
+
+CREATE PROCEDURE insert_rashod(f_u VARCHAR(45), f_b_m VARCHAR(45), n_p VARCHAR(45), c_r INT)
+
+BEGIN
+	
+DECLARE id_us int;
+    
+DECLARE id_bo_ma int;
+
+DECLARE id_na_pi int;
+
+SELECT user.id_user into id_us FROM user WHERE f_u = fio_user;
+SELECT bought_mainer.id_bought_mainer into id_bo_ma FROM bought_mainer WHERE f_b_m = fio_bought_mainer;
+SELECT picture.id_picture into id_na_pi FROM picture WHERE n_p = name_picture;
+
+INSERT INTO rashod(id_user, id_bought_mainer, id_picture, cost_rashod)
+
+VALUES
+
+(id_us, id_bo_ma, id_na_pi, c_r);
+
+END//
+
+-----------------------------------------------------------------------------------
+
+ПРОЦЕДУРА ДЛЯ УДАЛЕНИЯ ПРОДАЖИ
+
+DELIMITER //
+
+CREATE PROCEDURE delete_rashod(f_u VARCHAR(45), f_b_m VARCHAR(45), n_p VARCHAR(45), c_r INT)
+
+BEGIN
+	
+DECLARE id_us int;
+    
+DECLARE id_bo_ma int;
+
+DECLARE id_na_pi int;
+
+SELECT user.id_user into id_us FROM user WHERE f_u = fio_user;
+SELECT bought_mainer.id_bought_mainer into id_bo_ma FROM bought_mainer WHERE f_b_m = fio_bought_mainer;
+SELECT picture.id_picture into id_na_pi FROM picture WHERE n_p = name_picture;
+
+DELETE FROM rashod WHERE id_us = id_user AND
+					      
+			  id_bo_ma = id_bought_mainer AND
+                          
+			  id_na_pi = id_picture AND
+                          
+			  c_r = cost_rashod;
+
+END//
+
+-----------------------------------------------------------------------------------
+
+ПРОЦЕДУРА ДЛЯ ИЗМЕНЕНИЯ ПРОДАЖИ
+
+DELIMITER //
+
+CREATE PROCEDURE update_rashod(id INT, new_f_u VARCHAR(45), new_f_b_m VARCHAR(45), new_n_p VARCHAR(45), new_c_r INT)
+
+BEGIN
+	
+DECLARE new_id_us int;
+    
+DECLARE new_id_bo_ma int;
+
+DECLARE new_id_na_pi int;
+
+SELECT user.id_user into new_id_us FROM user WHERE f_u = fio_user;
+SELECT bought_mainer.id_bought_mainer into new_id_bo_ma FROM bought_mainer WHERE f_b_m = fio_bought_mainer;
+SELECT picture.id_picture into new_id_na_pi FROM picture WHERE n_p = name_picture;
+
+UPDATE rashod
+SET id_user = new_id_us,
+    id_bought_mainer  = new_id_bo_ma,
+    id_picture  = new_id_na_pi,
+    cost_rashod = new_c_r
+WHERE id_rashod = id;
+
+END//

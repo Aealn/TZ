@@ -1,0 +1,72 @@
+ПРОЦЕДУРА ДЛЯ ДОБАВЛЕНИЯ ВЫСТАВКИ
+
+DELIMITER //
+
+CREATE PROCEDURE insert_exhibitions(n_e VARCHAR(45), d_s DATE, d_e DATE, s_p VARCHAR(45), p_e INT, n_m VARCHAR(45))
+
+BEGIN
+    
+DECLARE id_mu int;
+
+SELECT museum.id_museum into id_mu FROM museum WHERE n_m = name_museum;
+
+INSERT INTO exhibitions(name_exhibitions, date_start, date_end, sold_places, price_exhibitions,id_museum)
+
+VALUES
+
+(n_e, d_s, d_e, s_p, p_e, id_mu);
+
+END//
+
+-----------------------------------------------------------------------------------
+
+ПРОЦЕДУРА ДЛЯ УДАЛЕНИЯ ВЫСТАВКИ
+
+DELIMITER //
+
+CREATE PROCEDURE delete_exhibitions(n_e VARCHAR(45), d_s DATE, d_e DATE, s_p VARCHAR(45), p_e INT, m_i VARCHAR(45))
+
+BEGIN
+    
+DECLARE id_mu int;
+
+SELECT museum.id_museum into id_mu FROM museum WHERE n_m = name_museum;
+
+DELETE FROM exhibitions WHERE n_e = name_exhibitions AND
+					      
+			  d_s = date_start AND
+                          
+			  d_e = date_end AND
+                          
+			  s_p = sold_places AND
+              
+              		  p_e = price_exhibitions AND
+                          
+			  id_mu = id_museum;
+
+END//
+
+-----------------------------------------------------------------------------------
+
+ПРОЦЕДУРА ДЛЯ ИЗМЕНЕНИЯ ВЫСТАВКИ
+
+DELIMITER //
+
+CREATE PROCEDURE update_exhibitions(id INT, new_n_e VARCHAR(45), new_d_s DATE, new_d_e DATE, new_s_p VARCHAR(45), new_p_e INT, new_m_i VARCHAR(45))
+
+BEGIN
+    
+DECLARE new_id_mu int;
+
+SELECT museum.id_museum into new_id_mu FROM museum WHERE new_m_i = name_museum;
+
+UPDATE exhibitions
+SET name_exhibitions = new_n_e,
+    date_start  = new_d_s,
+    date_end  = new_d_e,
+    sold_places = new_s_p,
+	price_exhibitions = new_p_e,
+    id_museum = new_id_mu
+WHERE id_exhibitions = id;
+
+END//

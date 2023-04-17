@@ -1,0 +1,79 @@
+ПРОЦЕДУРА ДЛЯ ДОБАВЛЕНИЯ ПОЛЬЗОВАТЕЛЯ
+
+DELIMITER //
+
+CREATE PROCEDURE insert_user(f_u VARCHAR(45), l_u VARCHAR(45), p_u VARCHAR(45), n_u_r VARCHAR(45), n_m VARCHAR(45))
+
+BEGIN
+	
+DECLARE id_us_ro int;
+    
+DECLARE id_mu int;
+
+SELECT user_role.id_user_role into id_us_ro FROM user_role WHERE n_u_r = name_user_role;
+SELECT museum.id_museum into id_mu FROM museum WHERE n_m = name_museum;
+
+INSERT INTO user(fio_user, login_user, password_user, id_user_role, id_museum)
+
+VALUES
+
+(f_u, l_u, p_u, id_us_ro , id_mu);
+
+END//
+
+-----------------------------------------------------------------------------------
+
+ПРОЦЕДУРА ДЛЯ УДАЛЕНИЯ ПОЛЬЗОВАТЕЛЯ
+
+DELIMITER //
+
+CREATE PROCEDURE delete_user(f_u VARCHAR(45), l_u VARCHAR(45), p_u VARCHAR(45), u_r_i VARCHAR(45), m_i VARCHAR(45))
+
+BEGIN
+	
+DECLARE id_us_ro int;
+    
+DECLARE id_mu int;
+
+SELECT user_role.id_user_role into id_us_ro FROM user_role WHERE u_r_i = name_user_role;
+SELECT museum.id_museum into id_mu FROM museum WHERE m_i = name_museum;
+
+DELETE FROM user WHERE f_u = fio_user AND
+					      
+			  l_u = login_user AND
+                          
+			  p_u = password_user AND
+                          
+			  id_us_ro = id_user_role AND
+                          
+			  id_mu = id_museum;
+
+END//
+
+-----------------------------------------------------------------------------------
+
+ПРОЦЕДУРА ДЛЯ ИЗМЕНЕНИЯ ПОЛЬЗОВАТЕЛЯ
+
+
+DELIMITER //
+
+CREATE PROCEDURE update_user(id INT, new_f_u VARCHAR(45), new_l_u VARCHAR(45), new_p_u VARCHAR(45), new_u_r_i VARCHAR(45), new_m_i VARCHAR(45))
+
+BEGIN
+	
+DECLARE new_id_us_ro int;
+    
+DECLARE new_id_mu int;
+
+SELECT user_role.id_user_role into new_id_us_ro FROM user_role WHERE new_u_r_i = name_user_role;
+SELECT museum.id_museum into new_id_mu FROM museum WHERE new_m_i = name_museum;
+
+UPDATE user
+SET fio_user = new_f_u,
+    login_user  = new_l_u,
+    password_user  = new_p_u,
+    id_user_role = new_id_us_ro,
+    id_museum = new_id_mu
+WHERE id_user = id;
+
+END//

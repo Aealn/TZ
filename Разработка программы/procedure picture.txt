@@ -1,0 +1,84 @@
+ПРОЦЕДУРА ДЛЯ ДОБАВЛЕНИЯ КАРТИНЫ
+
+DELIMITER //
+
+CREATE PROCEDURE insert_picture(n_p VARCHAR(45), y_c_p VARCHAR(45), f_a VARCHAR(45), n_j VARCHAR(45), n_e VARCHAR(45))
+
+BEGIN
+	
+DECLARE id_aut int;
+    
+DECLARE id_ja int;
+
+DECLARE id_ex int;
+
+SELECT author.id_author into id_aut FROM author WHERE f_a = fio_author;
+SELECT janre.id_janre into id_ja FROM janre WHERE n_j = name_janre;
+SELECT exhibitions.id_exhibitions into id_ex FROM exhibitions WHERE n_e = name_exhibitions;
+
+INSERT INTO picture(name_picture, year_create_picture, id_author, id_janre, id_exhibitions)
+
+VALUES
+
+(n_p, y_c_p, id_aut, id_ja, id_ex);
+
+END//
+
+-----------------------------------------------------------------------------------
+
+ПРОЦЕДУРА ДЛЯ УДАЛЕНИЯ КАРТИНЫ
+
+DELIMITER //
+
+CREATE PROCEDURE delete_picture(n_p VARCHAR(45), y_c_p VARCHAR(45), a_i VARCHAR(45), j_i VARCHAR(45), e_i VARCHAR(45))
+
+BEGIN
+	
+DECLARE id_aut int;
+    
+DECLARE id_ja int;
+
+DECLARE id_ex int;
+
+SELECT author.id_author into id_aut FROM author WHERE a_i = fio_author;
+SELECT janre.id_janre into id_ja FROM janre WHERE j_i = name_janre;
+SELECT exhibitions.id_exhibitions into id_ex FROM exhibitions WHERE e_i = name_exhibitions;
+
+DELETE FROM picture WHERE n_p = name_picture AND
+					      
+			  y_c_p = year_create_picture AND
+                          
+			  id_aut = id_author AND
+                          
+			  id_ja = id_janre AND
+                          
+			  id_ex = id_exhibitions;
+
+END//
+
+-----------------------------------------------------------------------------------
+
+ПРОЦЕДУРА ДЛЯ ИЗМЕНЕНИЯ КАРТИНЫ
+
+DELIMITER //
+
+CREATE PROCEDURE update_picture(id INT, new_n_p VARCHAR(45), new_y_c_p VARCHAR(45), new_a_i VARCHAR(45), new_j_i VARCHAR(45), new_e_i VARCHAR(45))
+BEGIN
+
+DECLARE new_id_aut int;
+DECLARE new_id_ja int;
+DECLARE new_id_ex int;
+
+SELECT author.id_author into new_id_aut FROM author WHERE new_a_i = fio_author;
+SELECT janre.id_janre into new_id_ja FROM janre WHERE new_j_i = name_janre;
+SELECT exhibitions.id_exhibitions into new_id_ex FROM exhibitions WHERE new_e_i = name_exhibitions;
+
+UPDATE picture
+SET name_picture = new_n_p,
+    year_create_picture  = new_y_c_p,
+    id_author  = new_id_aut,
+    id_janre = new_id_ja,
+    id_exhibitions = new_id_ex
+WHERE id_picture = id;
+
+END//
